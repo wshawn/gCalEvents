@@ -1,0 +1,38 @@
+div.agendaEventsContainer {
+	width: 220px;
+	margin-left: 10px;
+}
+
+div.agendaEvent {
+	overflow: hidden;	
+	width: 210px;
+	margin: 5px 0;
+}
+
+div.agendaEventDesc {
+	float: left;
+	width: inherit;
+}
+
+div.agendaEventDatetime {
+	width: inherit;
+	margin-left: 210px;
+}
+
+div.agendaEvent div.moreInfo {
+	background: url(../images/moreless.png);
+	background-position: -7px center;
+	background-repeat: no-repeat;
+	width: 8px;	
+	float: right;
+	cursor: pointer;
+}
+
+div.lessInfo {
+	background: url(../images/moreless.png);
+	background-position: 0px center;
+	background-repeat: no-repeat;
+	width: 8px;	
+	float: right;
+	cursor: pointer;
+}
