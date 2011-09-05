@@ -69,6 +69,6 @@
     	<td>22:00</td>
     </tr>
     <tr>
-    	<td>23:00</td>
+    	<td class="last">23:00</td>
     </tr>
 </table>

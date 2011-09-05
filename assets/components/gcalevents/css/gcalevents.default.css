@@ -19,7 +19,7 @@ div.agendaEventDatetime {
 	margin-left: 210px;
 }
 
-div.agendaEvent div.moreInfo {
+div.moreInfo {
 	background: url(../images/moreless.png);
 	background-position: -7px center;
 	background-repeat: no-repeat;
@@ -45,6 +45,12 @@ table.gcalevents_weekview_table {
 	border-collapse: collapse;
 }
 
+table.gcalevents_weekview_table caption {
+	caption-side: bottom;
+	padding-top: 5px;
+	width: 900px;
+}
+
 table.gcalevents_weekview_table th {
 	width: 119px;
 	padding: 0 2px;
@@ -58,7 +64,7 @@ table.gcalevents_weekview_table th div {
 	border: 1px solid #333;
 	background-color:#333;
 	width: 119px;
-	padding: 0 2px;
+	padding: 2px;
 }
 
 div.gcalevent span.datetime {
@@ -78,10 +84,14 @@ table.gcalevents_weekview_table td div {
 	border-radius: 3px;
 	background-color:#36C;
 	color: #fff;
-	width: 119px;
-	padding: 0 2px;
-	overflow: auto;	
-	border: 1px solid #333;
+	width: 123px;
+	padding: 2px 0 0 2px;
+	overflow: hidden;	
+	border: 0px;
+}
+
+table.gcalevents_weekview_table .gcalevents_allday_row td {
+	padding: 3px 2px;	
 }
 
 table.gcalevents_weekview_table .gcalevents_allday_row div {
@@ -89,16 +99,8 @@ table.gcalevents_weekview_table .gcalevents_allday_row div {
 	position: relative;
 }
 
-table.gcalevents_weekview_table td.odd {
-	background-color: #E6F1FF;
-}
-
-table.gcalevents_weekview_table td.even {
-	background-color:#FFF;
-}
-
 table.gcalevents_weekview_timescale_table, table.gcalevents_weekview_timescaleblank_table {
-	margin: 1px 0 0 0; 
+	margin: 0; 
 	padding: 0; 
 	border-collapse: collapse; 
 	height: 480px;
@@ -106,18 +108,55 @@ table.gcalevents_weekview_timescale_table, table.gcalevents_weekview_timescalebl
 
 table.gcalevents_weekview_timescaleblank_table td, table.gcalevents_weekview_timescale_table td {
 	font-size: 80%;
-	height: 19px;
+	height: 21px;
 	border-bottom: 1px solid #000;
 	vertical-align: top;
 	margin: 0;
 	padding: 0;
 }
 
+table.gcalevents_weekview_timescaleblank_table td.last, table.gcalevents_weekview_timescale_table td.last {
+	border-bottom: 0;
+}
+
+
 table.gcalevents_weekview_timescaleblank_table {
 	position: absolute;	 
-	width: 119px;
+	width: 125px;
 }
 
 table.gcalevents_weekview_timescaleblank_table td {
-	border-bottom: 1px solid #999;
+	border-color: #ddd;
+}
+
+.gcalevents_weekview_title {
+	text-align: center;	
+}
+
+div.nextWeek {
+	background: url(../images/moreless.png);
+	background-position: -7px center;
+	background-repeat: no-repeat;
+	width: 8px;	
+	float: right;
+}
+
+div.nextWeekLink {
+	margin-left: 460px;
+	text-align: right;
+}
+
+div.prevWeek {
+	background: url(../images/moreless.png);
+	background-position: 0px center;
+	background-repeat: no-repeat;
+	width: 8px;
+	float: left;
+}
+
+div.prevWeekLink {
+	float: left;
+	margin-left: 20px;
+	width: 460px;
+	text-align: left;
 }

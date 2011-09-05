@@ -4,6 +4,7 @@ require_once MODX_CORE_PATH.'components/gcalevents/model/gcalevents/gcalevents.c
 
 $scriptProperties['outputMode'] = 'week';
 $scriptProperties['currentWeek'] = is_numeric($_GET['w']) ? $_GET['w']:date('W');
+$scriptProperties['currentYear'] = is_numeric($_GET['y']) ? $_GET['y']:date('Y');
 $gca = new gCalEvents($modx, $scriptProperties);
 $gca->init();
 

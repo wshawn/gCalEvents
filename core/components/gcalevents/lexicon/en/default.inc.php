@@ -7,3 +7,5 @@ $_lang['gcalevents.previous_month'] = 'Previous Month';
 $_lang['gcalevents.next_week'] = 'Next Week';
 $_lang['gcalevents.previous_week'] = 'Previous Week';
 $_lang['gcalevents.more_events'] = 'More Events';
+$_lang['gcalevents.till'] = 'till';
+$_lang['gcalevents.week'] = 'week';

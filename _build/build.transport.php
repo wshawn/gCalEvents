@@ -35,7 +35,7 @@ $modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML');
 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
-$builder->createPackage('gCalEvents','0.2','alpha');
+$builder->createPackage('gCalEvents','0.2.1','alpha');
 $builder->registerNamespace('gcalevents',false,true,'{core_path}components/gcalevents/');
 
 /* load system settings */

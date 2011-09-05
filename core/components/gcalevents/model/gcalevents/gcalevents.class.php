@@ -309,7 +309,7 @@ public $buffer = '';
 		$dd = ($we-$ws) % 86400; 
 		
 		/* defaults */
-		$event['top'] = ($this->Hour($ws)+(date('i', $ws)/60))*20;
+		$event['top'] = ($this->Hour($ws)+(date('i', $ws)/60))*22;
 
 		if($dd == 0 && $this->Hour($ws) == 0 && $this->Hour($we) == 0) {
 			$event['height'] = 20;
@@ -323,7 +323,7 @@ public $buffer = '';
 			while($ws < $we) {
 				$this->setSortedArray($ws, $event);
 				$ws += $event['when.duration'];
-				$event['top'] = ($this->Hour($ws)+(date('i', $ws)/60))*20;
+				$event['top'] = ($this->Hour($ws)+(date('i', $ws)/60))*22;
 				$event['when.duration'] = ($we - $ws) < 86400 ? ($we - $ws):86400;
 			}
 		} else {
@@ -356,7 +356,18 @@ public $buffer = '';
 		/* determine first week in feed */
 		$targetWeek = $this->c['currentWeek'];
 		/* create container */
-		$secondPass = array('wrapper' => '', 'scale' => $this->modx->getChunk($this->c['weekScaleTpl']));
+		$secondPass = array(
+			'wrapper' => '', 
+			'scale' => $this->modx->getChunk($this->c['weekScaleTpl']), 
+			'startDate' => strtotime($this->c['startDate']),
+			'endDate' => strtotime($this->c['endDate'])-86400,
+			'curWeek' => $targetWeek,
+			'nextWeek' => $targetWeek >= 52 ? 1:$targetWeek+1,
+			'prevWeek' => $targetWeek > 1 ? $targetWeek-1:52, 
+			'curYear' => $this->c['currentYear'],
+			'nextYear' => $targetWeek == 52 ? $this->c['currentYear']+1:$this->c['currentYear'],
+			'prevYear' => $targetWeek == 1 ? $this->c['currentYear']-1:$this->c['currentYear']
+		);
 		
 		foreach($weekDays as $w) {
 			$daystamp = strtotime($this->c['currentYear'].'W'.$this->c['currentWeek'].$w);
@@ -476,7 +487,7 @@ public $buffer = '';
 	/* SORTING */
 
 	function setSortedArray($ws, $event) {
-		$event['height'] = isset($event['height']) ? $event['height']:(($event['when.duration'] / 3600) * 20);
+		$event['height'] = isset($event['height']) ? $event['height']:(($event['when.duration'] / 3600) * 22)-2;
 		$this->output['sortedArray'][$this->WeekN($ws)][$this->DoW($ws)][$event['id']] = $event;	
 	}
 

@@ -69,6 +69,6 @@
     	<td>&nbsp;</td>
     </tr>
     <tr>
-    	<td>&nbsp;</td>
+    	<td class="last">&nbsp;</td>
     </tr>
 </table>
