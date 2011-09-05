@@ -2,6 +2,8 @@
 
 require_once MODX_CORE_PATH.'components/gcalevents/model/gcalevents/gcalevents.class.php';
 
+$scriptProperties['outputMode'] = 'week';
+$scriptProperties['currentWeek'] = is_numeric($_GET['w']) ? $_GET['w']:date('W');
 $gca = new gCalEvents($modx, $scriptProperties);
 $gca->init();
 
@@ -11,10 +13,10 @@ $gca->init();
 ***
 **/
 
-if($gca->c['includeJS']) {
+if($gca->c['includeJS'] == 1) {
 	$modx->regClientStartupScript($gca->c['jsPath']);
 }
-if($gca->c['includeCSS']) {
+if($gca->c['includeCSS'] == 1) {
 	$modx->regClientCSS($gca->c['cssPath']);
 }
 
@@ -25,7 +27,7 @@ if($gca->c['includeCSS']) {
 **/
 
 if(!isset($gca->c['debug'])) {
-	return $gca->output[$gca->c['outputType']][$gca->c['outputMode']];
+	return $gca->output[$gca->c['outputType']][$gca->c['outputMode']][$gca->c['currentWeek']];
 } else {
 	return $gca->debug();	
 }

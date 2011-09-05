@@ -36,3 +36,88 @@ div.lessInfo {
 	float: right;
 	cursor: pointer;
 }
+
+/* WEEK VIEW */
+
+table.gcalevents_weekview_table {
+	margin: 5px;
+	width: 920px;
+	border-collapse: collapse;
+}
+
+table.gcalevents_weekview_table th {
+	width: 119px;
+	padding: 0 2px;
+	font-size: 80%;
+	color: #fff;
+	vertical-align: top;
+}
+
+table.gcalevents_weekview_table th div {
+	border-radius: 3px;
+	border: 1px solid #333;
+	background-color:#333;
+	width: 119px;
+	padding: 0 2px;
+}
+
+div.gcalevent span.datetime {
+	font-size: 70%;
+	font-weight: bold;
+}
+
+table.gcalevents_weekview_table td {
+	width: 119px;
+	padding: 0 2px;
+	vertical-align: top;
+	font-size: 75%;
+}
+
+table.gcalevents_weekview_table td div {
+	position: absolute;
+	border-radius: 3px;
+	background-color:#36C;
+	color: #fff;
+	width: 119px;
+	padding: 0 2px;
+	overflow: auto;	
+	border: 1px solid #333;
+}
+
+table.gcalevents_weekview_table .gcalevents_allday_row div {
+	background-color:#369;
+	position: relative;
+}
+
+table.gcalevents_weekview_table td.odd {
+	background-color: #E6F1FF;
+}
+
+table.gcalevents_weekview_table td.even {
+	background-color:#FFF;
+}
+
+table.gcalevents_weekview_timescale_table, table.gcalevents_weekview_timescaleblank_table {
+	margin: 1px 0 0 0; 
+	padding: 0; 
+	border-collapse: collapse; 
+	height: 480px;
+}
+
+table.gcalevents_weekview_timescaleblank_table td, table.gcalevents_weekview_timescale_table td {
+	font-size: 80%;
+	height: 19px;
+	border-bottom: 1px solid #000;
+	vertical-align: top;
+	margin: 0;
+	padding: 0;
+}
+
+table.gcalevents_weekview_timescaleblank_table {
+	position: absolute;	 
+	width: 119px;
+}
+
+table.gcalevents_weekview_timescaleblank_table td {
+	border-bottom: 1px solid #999;
+}

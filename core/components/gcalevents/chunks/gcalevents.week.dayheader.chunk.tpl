@@ -1,0 +1,1 @@
+<th><div>[[+day:date=`%a %e %b`:ucwords]]</div></th>
