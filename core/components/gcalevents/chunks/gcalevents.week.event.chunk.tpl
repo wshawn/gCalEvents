@@ -1,1 +1,1 @@
-<div style="margin-top: [[+top]]px; height: [[+height]]px;" class="gcalevent" title="[[+details:notequals=``:then=`Details:&#013;[[+details]]`:else=``]]"><span class="datetime">[[+when.start:date=`%H:%M`]] - [[+when.end:date=`%H:%M`]]</span><br />[[+title:ellipsis=`50`]]</div>
+<div style="margin-top: [[+top]]; height: [[+height]]px;" class="gcalevent" title="[[+details:notequals=``:then=`Details:&#013;[[+details]]`:else=``]]"><span class="datetime">[[+when.start:date=`%H:%M`]] - [[+when.end:date=`%H:%M`]]</span><br />[[+title:ellipsis=`50`]]</div>

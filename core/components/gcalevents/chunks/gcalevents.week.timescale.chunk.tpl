@@ -1,74 +1,74 @@
 <table class="gcalevents_weekview_timescale_table">
 	<tr>
-    	<td>0:00</td>
+    	<td style="height: [[+height]]px;">0:00</td>
     </tr>
 	<tr>
-    	<td>1:00</td>
+    	<td style="height: [[+height]]px;">1:00</td>
     </tr>
     <tr>
-    	<td>2:00</td>
+    	<td style="height: [[+height]]px;">2:00</td>
     </tr>
     <tr>
-    	<td>3:00</td>
+    	<td style="height: [[+height]]px;">3:00</td>
     </tr>
     <tr>
-    	<td>4:00</td>
+    	<td style="height: [[+height]]px;">4:00</td>
     </tr>
     <tr>
-    	<td>5:00</td>
+    	<td style="height: [[+height]]px;">5:00</td>
     </tr>
     <tr>
-    	<td>6:00</td>
+    	<td style="height: [[+height]]px;">6:00</td>
     </tr>
     <tr>
-    	<td>7:00</td>
+    	<td style="height: [[+height]]px;">7:00</td>
     </tr>
     <tr>
-    	<td>8:00</td>
+    	<td style="height: [[+height]]px;">8:00</td>
     </tr>
     <tr>
-    	<td>9:00</td>
+    	<td style="height: [[+height]]px;">9:00</td>
     </tr>
     <tr>
-    	<td>10:00</td>
+    	<td style="height: [[+height]]px;">10:00</td>
     </tr>
     <tr>
-    	<td>11:00</td>
+    	<td style="height: [[+height]]px;">11:00</td>
     </tr>
     <tr>
-    	<td>12:00</td>
+    	<td style="height: [[+height]]px;">12:00</td>
     </tr>
     <tr>
-    	<td>13:00</td>
+    	<td style="height: [[+height]]px;">13:00</td>
     </tr>
     <tr>
-    	<td>14:00</td>
+    	<td style="height: [[+height]]px;">14:00</td>
     </tr>
     <tr>
-    	<td>15:00</td>
+    	<td style="height: [[+height]]px;">15:00</td>
     </tr>
     <tr>
-    	<td>16:00</td>
+    	<td style="height: [[+height]]px;">16:00</td>
     </tr>
     <tr>
-    	<td>17:00</td>
+    	<td style="height: [[+height]]px;">17:00</td>
     </tr>
     <tr>
-    	<td>18:00</td>
+    	<td style="height: [[+height]]px;">18:00</td>
     </tr>
     <tr>
-    	<td>19:00</td>
+    	<td style="height: [[+height]]px;">19:00</td>
     </tr>
     <tr>
-    	<td>20:00</td>
+    	<td style="height: [[+height]]px;">20:00</td>
     </tr>
     <tr>
-    	<td>21:00</td>
+    	<td style="height: [[+height]]px;">21:00</td>
     </tr>
     <tr>
-    	<td>22:00</td>
+    	<td style="height: [[+height]]px;">22:00</td>
     </tr>
     <tr>
-    	<td class="last">23:00</td>
+    	<td style="height: [[+height]]px;" class="last">23:00</td>
     </tr>
 </table>

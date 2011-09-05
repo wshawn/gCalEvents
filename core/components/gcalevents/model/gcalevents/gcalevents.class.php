@@ -46,6 +46,9 @@ public $buffer = '';
 			'weekWrapperTpl' => 'gcaleventsWeekWrapper',
 			'weekScaleTpl' => 'gcaleventsWeekTimescale',
 			'weekBlankscaleTpl' => 'gcaleventsWeekTimescaleBlank',
+			'weekScaleBorder' => 1,
+			'weekEventPadding' => 2,
+			'hourHeight' => 22,
 			'orderBy' => 'starttime',
 			'sortOrder' => 'a',
 			'decay' => 3600,
@@ -61,6 +64,7 @@ public $buffer = '';
 			'cssPath' => './assets/components/gcalevents/css/gcalevents.default.css',
 			'includeJS' => 1,
 			'includeCSS' => 1,
+			'includeHeader' => 1,
 			'outputMode' => 'agenda' //others: calendar, week
 		);
 		
@@ -309,10 +313,10 @@ public $buffer = '';
 		$dd = ($we-$ws) % 86400; 
 		
 		/* defaults */
-		$event['top'] = ($this->Hour($ws)+(date('i', $ws)/60))*22;
+		$event['top'] = $this->hoursToPixels($ws);
 
 		if($dd == 0 && $this->Hour($ws) == 0 && $this->Hour($we) == 0) {
-			$event['height'] = 20;
+			$event['height'] = $this->c['hourHeight']-$this->c['weekEventPadding'];
 			$event['allday'] = 1;
 			while($ws < $we) {
 				$this->setSortedArray($ws, $event);
@@ -323,7 +327,7 @@ public $buffer = '';
 			while($ws < $we) {
 				$this->setSortedArray($ws, $event);
 				$ws += $event['when.duration'];
-				$event['top'] = ($this->Hour($ws)+(date('i', $ws)/60))*22;
+				$event['top'] = $this->hoursToPixels($ws);
 				$event['when.duration'] = ($we - $ws) < 86400 ? ($we - $ws):86400;
 			}
 		} else {
@@ -351,14 +355,17 @@ public $buffer = '';
 	
 	function parseWeekView() {
 		
+		/* define scale properties */
+		$scaleProps = array('height' => $this->c['hourHeight']-$this->c['weekScaleBorder']);
 		/* create weekday list 1 - 7 */
 		$weekDays = array(1, 2, 3, 4, 5 ,6 ,7);
 		/* determine first week in feed */
 		$targetWeek = $this->c['currentWeek'];
 		/* create container */
 		$secondPass = array(
-			'wrapper' => '', 
-			'scale' => $this->modx->getChunk($this->c['weekScaleTpl']), 
+			'wrapper' => '',
+			'includeHeader' => $this->c['includeHeader'], 
+			'scale' => $this->modx->getChunk($this->c['weekScaleTpl'], $scaleProps), 
 			'startDate' => strtotime($this->c['startDate']),
 			'endDate' => strtotime($this->c['endDate'])-86400,
 			'curWeek' => $targetWeek,
@@ -377,7 +384,7 @@ public $buffer = '';
 			$dayitems = $this->output['sortedArray'][$targetWeek][$w];
 			
 			/* create container */
-			$firstPass['normal'] = array('events' => $this->modx->getChunk($this->c['weekBlankscaleTpl']), 'odd' => ($w % 2));
+			$firstPass['normal'] = array('events' => $this->modx->getChunk($this->c['weekBlankscaleTpl'], $scaleProps), 'odd' => ($w % 2));
 			$firstPass['allday'] = array('events' => '');
 			foreach($dayitems as $v) {
 				/* fill day */
@@ -487,7 +494,8 @@ public $buffer = '';
 	/* SORTING */
 
 	function setSortedArray($ws, $event) {
-		$event['height'] = isset($event['height']) ? $event['height']:(($event['when.duration'] / 3600) * 22)-2;
+		$height = $this->convertComma(($event['when.duration'] / 3600*$this->c['hourHeight'])-$this->c['weekEventPadding']);
+		$event['height'] = isset($event['height']) ? $event['height']:$height;
 		$this->output['sortedArray'][$this->WeekN($ws)][$this->DoW($ws)][$event['id']] = $event;	
 	}
 
@@ -516,7 +524,27 @@ public $buffer = '';
 		return date('H', $timestamp);	
 	}
 	
+	function Minute($timestamp) {
+		return date('i', $timestamp);	
+	}
+	
+	function hoursToPixels($timestamp, $includeMinutes = true) {
+		$output = $this->Hour($timestamp);
+		$output += $includeMinutes === true ? $this->Minute($timestamp)/60:0;
+		$output = $output*$this->c['hourHeight'];
+		return str_replace(',','.',(string)$output).'px';	
+	}
+	
 	/* UTILITIES */
+	
+	function convertComma($input, $replacement = '.', $precision = 1) {
+		$tmpc = explode(',',$input);
+		$tmpc[1] = substr($tmpc[1], 0, $precision);
+		if($tmpc[1] == '') {
+			unset($tmpc[1]);	
+		}
+		return implode($replacement, $tmpc);
+	}
 	
 	function debug() {
 		return '<pre>Errors: '.implode("\n\n", $this->errors)."\n\n Script Properties:".json_encode($this->scriptProperties).'</pre>';	
