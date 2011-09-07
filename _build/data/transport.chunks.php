@@ -37,6 +37,15 @@ $chunk->set('snippet',file_get_contents($sources['source_core'].'/chunks/gcaleve
 
 $chunkArray[] = $chunk;
 
+/* default week event chunk */
+$chunk= $modx->newObject('modChunk');
+$chunk->set('id',0);
+$chunk->set('name', 'gcalEventsWeekAlldayEvent');
+$chunk->set('description', 'Default Google Calendar week allday event template.');
+$chunk->set('snippet',file_get_contents($sources['source_core'].'/chunks/gcalevents.week.eventallday.chunk.tpl'));
+
+$chunkArray[] = $chunk;
+
 /* default week day chunk */
 $chunk= $modx->newObject('modChunk');
 $chunk->set('id',0);

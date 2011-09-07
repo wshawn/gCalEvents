@@ -3,7 +3,7 @@ $settingArray = array();
 
 /* create a setting */
 $setting= $modx->newObject('modSystemSetting');
-$setting->set('key', 'gcalevents.userID');
+$setting->set('key', 'gcalevents.agendaID');
 $setting->set('value', '');
 $setting->set('xtype', 'textfield');
 $setting->set('namespace','gcalevents');

@@ -11,11 +11,15 @@ Both public and private feeds can be used. For private feeds you can either supp
 
 /* BASIC USAGE */
 
-[[!showAgenda &userID=`yourcalendaremail%40yourdomain.tld` &cached=`1` &decay=`86400` &limit=`5`]] // for public calendars and caching enabled (1 day decay)
+[[!gcalAgendaView &userID=`yourcalendaremail%40yourdomain.tld` &cached=`1` &decay=`86400` &limit=`5`]] // for public calendars and caching enabled (1 day decay)
 
-[[!showAgenda &userID=`yourcalendaremail%40yourdomain.tld` &privateCookie=`cookievalue`]] // for private calendars
+[[!gcalAgendaView &userID=`yourcalendaremail%40yourdomain.tld` &privateCookie=`cookievalue`]] // for private calendars
 
-[[!showAgenda &useSettings=`1`]] // to use system settings
+[[!gcalAgendaView &useSettings=`1`]] // to use system settings
+
+The same settings can be used for the [[!gcalWeekView]] snippet.
+
+[[!gcalWeekView &useSettings=`1` &includeHeader=`0` &cached=`1`]] // for weekview of agenda defined in settings
 
 /* ADVANCED PARAMETERS */
 
@@ -27,6 +31,9 @@ endDate, to set a maximum enddate, format: see startDate
 
 includeAttendees, to include a list of attendees
 cacheSlot, to give each cache item a unique slot for caching, useful when loading multiple agenda's on 1 resource
+
+For detailed documentation, please visit Github wiki:
+https://github.com/eelkevdbos/gCalEvents/wiki/
 
 /* GENERAL */
 

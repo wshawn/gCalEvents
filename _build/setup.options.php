@@ -7,14 +7,14 @@
  */
 /* set some default values */
 $values = array(
-    'userID' => 'user@domain.tld',
+    'agendaID' => 'user@domain.tld',
     'privateCookie' => '',
 );
 switch ($options[xPDOTransport::PACKAGE_ACTION]) {
     case xPDOTransport::ACTION_INSTALL:
     case xPDOTransport::ACTION_UPGRADE:
-        $setting = $modx->getObject('modSystemSetting',array('key' => 'gcalevents.userID'));
-        if ($setting != null) { $values['userID'] = $setting->get('value'); }
+        $setting = $modx->getObject('modSystemSetting',array('key' => 'gcalevents.agendaID'));
+        if ($setting != null) { $values['agendaID'] = $setting->get('value'); }
         unset($setting);
  
         $setting = $modx->getObject('modSystemSetting',array('key' => 'gcalevents.privateCookie'));
@@ -25,8 +25,8 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
 }
  
 $output = '
-<label for="gcalevents-userID">Calendar User-ID:</label>
-<input type="text" name="userID" id="gcalevents-userID" width="300" value="'.$values['userID'].'" />
+<label for="gcalevents-agendaID">Agenda-ID:</label>
+<input type="text" name="agendaID" id="gcalevents-agendaID" width="300" value="'.$values['agendaID'].'" />
 <br /><br />
  
 <label for="gcalevents-privateCookie">Calendar Private Cookie:</label>

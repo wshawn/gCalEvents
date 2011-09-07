@@ -10,12 +10,12 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
     case xPDOTransport::ACTION_INSTALL:
     case xPDOTransport::ACTION_UPGRADE:
         /* emailsTo */
-        $setting = $object->xpdo->getObject('modSystemSetting',array('key' => 'gcalevents.userID'));
+        $setting = $object->xpdo->getObject('modSystemSetting',array('key' => 'gcalevents.agendaID'));
         if ($setting != null) {
-            $setting->set('value',$options['userID']);
+            $setting->set('value',$options['agendaID']);
             $setting->save();
         } else {
-            $object->xpdo->log(xPDO::LOG_LEVEL_ERROR,'[gCalEvents] userID setting could not be found, so the setting could not be changed.');
+            $object->xpdo->log(xPDO::LOG_LEVEL_ERROR,'[gCalEvents] agendaID setting could not be found, so the setting could not be changed.');
         }
  
         /* emailsFrom */

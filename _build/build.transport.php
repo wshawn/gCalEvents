@@ -35,7 +35,7 @@ $modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML');
 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
-$builder->createPackage('gCalEvents','0.2.2','alpha');
+$builder->createPackage('gCalEvents','0.3.0','alpha');
 $builder->registerNamespace('gcalevents',false,true,'{core_path}components/gcalevents/');
 
 /* load system settings */
@@ -64,17 +64,17 @@ $snippets = array();
 /* create the snippet */
 $snippet= $modx->newObject('modSnippet');
 $snippet->set('id',0);
-$snippet->set('name', 'showAgenda');
+$snippet->set('name', 'gcalAgendaView');
 $snippet->set('description', 'Shows the agenda view for a google calendar feed.');
-$snippet->set('snippet',file_get_contents($sources['source_core'].'/snippets/showAgenda.snippet.php'));
+$snippet->set('snippet',file_get_contents($sources['source_core'].'/snippets/gcalAgendaView.snippet.php'));
 
 $snippets[] = $snippet;
 
 $snippet= $modx->newObject('modSnippet');
 $snippet->set('id',0);
-$snippet->set('name', 'showWeek');
+$snippet->set('name', 'gcalWeekView');
 $snippet->set('description', 'Shows the week view for a google calendar feed.');
-$snippet->set('snippet',file_get_contents($sources['source_core'].'/snippets/showWeek.snippet.php'));
+$snippet->set('snippet',file_get_contents($sources['source_core'].'/snippets/gcalWeekView.snippet.php'));
 
 $snippets[] = $snippet;
 

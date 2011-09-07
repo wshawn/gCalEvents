@@ -50,7 +50,7 @@ table.gcalevents_weekview_table {
 table.gcalevents_weekview_table caption {
 	caption-side: bottom;
 	padding-top: 5px;
-	width: 900px;
+	width: 910px;
 }
 
 table.gcalevents_weekview_table th {
@@ -69,7 +69,7 @@ table.gcalevents_weekview_table th div {
 	padding: 1.5px;
 }
 
-div.gcalevent span.datetime {
+div.gcalevent .datetime, div.gcalalldayevent .datetime {
 	font-size: 70%;
 	font-weight: bold;
 }
@@ -117,8 +117,8 @@ table.gcalevents_weekview_timescaleblank_table td, table.gcalevents_weekview_tim
 	height: 21px;
 	border-bottom: 1px solid #000;
 	vertical-align: top;
-	margin: 0;
-	padding: 0;
+	margin: inherit;
+	padding: inherit;
 }
 
 table.gcalevents_weekview_timescaleblank_table td.last, table.gcalevents_weekview_timescale_table td.last {
@@ -162,7 +162,10 @@ div.prevWeek {
 
 div.prevWeekLink {
 	float: left;
-	margin-left: 20px;
+	margin-left: 30px;
 	width: 460px;
 	text-align: left;
+}
+
+div.gcaleventallday {	
 }

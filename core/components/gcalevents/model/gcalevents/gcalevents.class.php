@@ -30,67 +30,63 @@ public $buffer = '';
 		
 		/* modx object as property and defaults */
 		$this->modx =& $modx;
-		$this->defaults = array(	
-			'baseUrl' => 'https://www.google.com/calendar/feeds/{{+userID}}/private-{{+privateCookie}}/full?alt=jsonc', 
-			'baseUrlPublic' => 'https://www.google.com/calendar/feeds/{{+userID}}/public/full?alt=jsonc',
-			'baseUrlCustom' => '',
-			'startDate' => date("Y-m-d\TH:i:s"), 
-			'endDate' => date("Y-m-d\TH:i:s", (mktime()+1814400)),
-			'currentWeek' => date('W'),
-			'currentYear' => date('Y'),
-			'eventTpl' => 'gcaleventsEvent',
-			'wrapTpl' => 'gcaleventsWrapper',
-			'weekEventTpl' => 'gcaleventsWeekEvent',
-			'weekDayTpl' => 'gcaleventsWeekDay',
-			'weekDayHeaderTpl' => 'gcaleventsWeekDayHeader',
-			'weekWrapperTpl' => 'gcaleventsWeekWrapper',
-			'weekScaleTpl' => 'gcaleventsWeekTimescale',
-			'weekBlankscaleTpl' => 'gcaleventsWeekTimescaleBlank',
-			'weekScaleBorder' => 1,
-			'weekEventPadding' => 2,
-			'hourHeight' => 22,
-			'orderBy' => 'starttime',
-			'sortOrder' => 'a',
-			'decay' => 3600,
-			'limit' => 25,
-			'useSettings' => 0,
-			'includeAttendees' => 0,
-			'useProxy' => 0,
-			'cached' => 0,
-			'cacheSlot' => 0,
-			'outputType' => 'string',
-			'singleEvents' => 'true',
-			'jsPath' => './assets/components/gcalevents/js/gcalevents.default.js',
-			'cssPath' => './assets/components/gcalevents/css/gcalevents.default.css',
-			'includeJS' => 1,
-			'includeCSS' => 1,
-			'includeHeader' => 1,
-			'outputMode' => 'agenda' //others: calendar, week
+		$this->defaults = array(
+			/* feed defaults */
+				'orderBy' => 'starttime',
+				'sortOrder' => 'a',
+				'singleEvents' => 'true',
+				'includeAttendees' => 0,
+				'useProxy' => 0,	
+				'baseUrl' => 'https://www.google.com/calendar/feeds/{{+agendaID}}/private-{{+privateCookie}}/full?alt=jsonc', 
+				'baseUrlPublic' => 'https://www.google.com/calendar/feeds/{{+agendaID}}/public/full?alt=jsonc',
+				'baseUrlCustom' => '',
+				'startDate' => date("Y-m-d\TH:i:s"), 
+				'endDate' => date("Y-m-d\TH:i:s", (mktime()+1814400)),
+				'currentWeek' => date('W'),
+				'currentYear' => date('Y'),
+			/* template defaults */
+				'eventTpl' => 'gcaleventsEvent',
+				'wrapTpl' => 'gcaleventsWrapper',
+				'weekEventTpl' => 'gcaleventsWeekEvent',
+				'weekEventAlldayTpl' => 'gcalEventsWeekAlldayEvent',
+				'weekDayTpl' => 'gcaleventsWeekDay',
+				'weekDayHeaderTpl' => 'gcaleventsWeekDayHeader',
+				'weekWrapperTpl' => 'gcaleventsWeekWrapper',
+				'weekScaleTpl' => 'gcaleventsWeekTimescale',
+				'weekBlankscaleTpl' => 'gcaleventsWeekTimescaleBlank',
+				'weekScaleBorder' => 1,
+				'weekEventPadding' => 2,
+				'hourHeight' => 22,
+				'includeJS' => 1,
+				'includeCSS' => 1,
+				'includeHeader' => 1,
+				'jsPath' => './assets/components/gcalevents/js/gcalevents.default.js',
+				'cssPath' => './assets/components/gcalevents/css/gcalevents.default.css',
+			/* general defaults */
+				'decay' => 3600,
+				'limit' => 25,
+				'useSettings' => 0,
+				'cached' => 0,
+				'cacheSlot' => 0,
+				'outputType' => 'string',
+				'outputMode' => 'agenda'
 		);
 		
 		$this->scriptProperties = is_array($options) ? $options:array();
 		$this->config = array_merge($this->defaults, $options);
 		$this->c =& $this->config;
+		
+		/* load lexicons */
 		$this->modx->getService('lexicon','modLexicon');
 		$this->modx->lexicon->load('gcalevents:default');
 		
 		/* check for settings */
 		if($this->c['useSettings'] == 1) {
-			
-			/* userID from settings */
-			$this->c['userID']	= $this->modx->getOption('gcalevents.userID', null, false);
-			
-			/* privateCookie from settings if not empty */
-			if($this->modx->getOption('gcalevents.privateCookie', null, '') != '') {
-				
-				$this->c['privateCookie'] = $this->modx->getOption('gcalevents.privateCookie');
-			}
+			$this->settingsToConfig();
 		}
-		if($this->c['outputMode'] == 'week') {
-			$fDoW = strtotime($this->c['currentYear'].'W'.$this->c['currentWeek'].'1');
-			$this->c['startDate'] = date("Y-m-d\TH:i:s", $fDoW);
-			$this->c['endDate'] = date("Y-m-d\TH:i:s", $fDoW+604800);
-		}
+		
+		/* set datetimecriteria */
+		$this->setDatetimeCriteria();
 	}
 	
 	function init() {
@@ -98,20 +94,15 @@ public $buffer = '';
 		/* check for cacheflag */
 		if($this->c['cached'] == 1) {
 
-			$this->initCache();
+			$this->cacheInitCheck();
 			
 			/* cache still valid */
 			if($this->cacheObj !== null) {
 				
 				if($this->c['outputMode'] == 'week') {
-					if(!isset($this->cacheObj['string']['week'][$this->c['currentWeek']])) {
-						$this->output = $this->cacheObj;
-						$this->cacheResult = false;	
-					}
-				} elseif($this->c['outputMode'] == 'month') {
-					if(!isset($this->cacheObj['string']['month'][$this->c['currentMonth']])) {
-						$this->cacheResult = false;	
-					}
+					$this->getWeekviewCache();
+				} elseif($this->c['outputMode'] == 'calendar') {
+					$this->getCalendarviewCache();
 				}
 				
 				if($this->cacheResult !== false) {
@@ -139,11 +130,16 @@ public $buffer = '';
 						
 						/* parsing and wrap up */
 						$this->parseEvents();
-						return $this->wrapUp(false);
+						
+						if($this->wrapUp(false) === true) {
+							
+							/* success! */
+							return true;
+						}
 					} else {
 						
 						/* error found in feed */
-						$this->errors[] = 'Error in gCalEvents::feedCheck(), feed contains errors.';	
+						$this->parseFeedError();
 					}
 				} else {
 					
@@ -222,8 +218,8 @@ public $buffer = '';
 				$this->url = str_replace('{{+privateCookie}}', $this->c['privateCookie'], $this->url);
 			}
 			
-			/* userID */
-			$this->url = str_replace('{{+userID}}', $this->c['userID'], $this->url);
+			/* agendaID */
+			$this->url = str_replace('{{+agendaID}}', $this->c['agendaID'], $this->url);
 		
 			/* startdate, enddate & sorting */
 			$this->url .= '&start-min='.$this->c['startDate'].'&start-max='.$this->c['endDate'];
@@ -386,10 +382,12 @@ public $buffer = '';
 			/* create container */
 			$firstPass['normal'] = array('events' => $this->modx->getChunk($this->c['weekBlankscaleTpl'], $scaleProps), 'odd' => ($w % 2));
 			$firstPass['allday'] = array('events' => '');
+			
+			/* iterate trough items of this week */
 			foreach($dayitems as $v) {
-				/* fill day */
+				
 				if($v['allday'] == 1) {
-					$firstPass['allday']['events'] .= $this->modx->getChunk($this->c['weekEventTpl'], $v);	
+					$firstPass['allday']['events'] .= $this->modx->getChunk($this->c['weekEventAlldayTpl'], $v);	
 				} else {
 					$firstPass['normal']['events'] .= $this->modx->getChunk($this->c['weekEventTpl'], $v);
 				}
@@ -401,7 +399,7 @@ public $buffer = '';
 		}
 		
 		/* fill wrapper */
-		$this->output['string']['week'][$targetWeek] = $this->modx->getChunk($this->c['weekWrapperTpl'], $secondPass);
+		$this->output['string']['week'][$this->c['currentYear'].$targetWeek] = $this->modx->getChunk($this->c['weekWrapperTpl'], $secondPass);
 	}
 	
 	function wrapUp($cacheFlag) {
@@ -438,10 +436,37 @@ public $buffer = '';
 		return true;
 	}
 	
+	function setDatetimeCriteria() {
+		
+		if($this->c['outputMode'] == 'week') {
+			
+			/* calculate first day of the week */
+			$fDoW = strtotime($this->c['currentYear'].'W'.$this->c['currentWeek'].'1');
+			/* startdate is fDoW, enddate is + 1 week */
+			$startDate = $fDoW; $endDate = strtotime('+1 Week', $fDoW);
+
+		} elseif($this->c['outputMode'] == 'calendar') {
+			
+			/* first day of month */
+			$fDoM = mktime(0,0,0,$this->c['currentMonth'],1,$this->c['currentYear']);
+			/* what day of the week is the first of the month */
+			$N = $this->DoW($fDoM);
+			/* correct to monday if needed */
+			$fMoM = $N == 1 ? $fDoM:strtotime('-'.($N-1).'day', $fDoM);
+			/* startdate is fMoM, enddate is + 1 Month */
+			$startDate = $fMoM; $endDate = strtotime('+1 Month', $fMoM);
+		}
+		
+		$this->c['startDate'] = !empty($startDate) ? date("Y-m-d\TH:i:s", $startDate):$this->c['startDate'];
+		$this->c['endDate'] = !empty($endDate) ? date("Y-m-d\TH:i:s",$endDate):$this->c['endDate'];
+	}
+	
 	function setAgendaMeta() {
+		/* copy parsed buffer and unset the items */
 		$a = $this->bufferParsed['data']; unset($a['items']);
 		$this->agendaMeta = $a;
 		
+		/* if needed, push to array output */
 		if($this->c['outputType'] != 'string') {
 			$this->output['array']['meta'] = $this->agendaMeta;	
 		}
@@ -454,6 +479,11 @@ public $buffer = '';
 	
 	function feedCheck() {
 		return isset($this->bufferParsed['error']) ? false:true;
+	}
+	
+	function parseFeedError() {
+		$this->errors[] = 'Error in gCalEvents::feedCheck(), feed returned error: '.$this->bufferParsed['error']['code'];
+		$this->errors[] = 'Error msg from feed: '.$this->bufferParsed['error']['message'];	
 	}
 	
 	/* PARSING CHUNKS */
@@ -478,10 +508,29 @@ public $buffer = '';
 		);
 		$this->eventCacheManager =& $this->modx->cacheManager;
 		$this->cacheObj = $this->eventCacheManager->get($this->modx->resource->getCacheKey().'/'.md5('events'.$this->c['cacheSlot']), $this->_cacheOptions);
+		$this->cacheInit = true;
+	}
+	
+	function cacheInitCheck() {
+		/* if not initiated, do so */
+		if($this->cacheInit !== true) {
+			$this->initCache();
+		}
 	}
 	
 	function cleanCache() {
 		unset($this->cacheObj['sortedArray']);
+	}
+	
+	function settingsToConfig() {
+		/* agendaID from settings */
+		$this->c['agendaID']	= $this->modx->getOption('gcalevents.agendaID', null, false);
+		
+		/* privateCookie from settings if not empty */
+		if($this->modx->getOption('gcalevents.privateCookie', null, '') != '') {
+			
+			$this->c['privateCookie'] = $this->modx->getOption('gcalevents.privateCookie');
+		}
 	}
 
 	function modifyCache() {
@@ -489,6 +538,21 @@ public $buffer = '';
 		$this->cleanCache();
 		$cacheKey = $this->modx->resource->getCacheKey().'/'.md5('events'.$this->c['cacheSlot']);
 		$this->eventCacheManager->set($cacheKey, $this->cacheObj, $this->c['decay'], $this->_cacheOptions);
+	}
+	
+	function getWeekviewCache() {
+		$this->cacheInitCheck();
+		if(!isset($this->cacheObj['string']['week'][$this->c['currentYear'].$this->c['currentWeek']])) {
+			$this->output = $this->cacheObj;
+			$this->cacheResult = false;	
+		}
+	}
+	
+	function getCalendarviewCache() {
+		$this->cacheInitCheck();
+		if(!isset($this->cacheObj['string']['month'][$this->c['currentYear'].$this->c['currentMonth']])) {
+			$this->cacheResult = false;	
+		}	
 	}
 	
 	/* SORTING */
@@ -525,13 +589,18 @@ public $buffer = '';
 	}
 	
 	function Minute($timestamp) {
+		/* 00 - 60 */
 		return date('i', $timestamp);	
 	}
 	
 	function hoursToPixels($timestamp, $includeMinutes = true) {
+		/* get hour */
 		$output = $this->Hour($timestamp);
+		/* sum with minutes to hour */
 		$output += $includeMinutes === true ? $this->Minute($timestamp)/60:0;
+		/* multiply with pixels per hour */
 		$output = $output*$this->c['hourHeight'];
+		/* replace the , for css compatibility */
 		return str_replace(',','.',(string)$output).'px';	
 	}
 	

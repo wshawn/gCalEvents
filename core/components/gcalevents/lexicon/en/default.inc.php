@@ -9,3 +9,5 @@ $_lang['gcalevents.previous_week'] = 'Previous Week';
 $_lang['gcalevents.more_events'] = 'More Events';
 $_lang['gcalevents.till'] = 'till';
 $_lang['gcalevents.week'] = 'week';
+$_lang['gcalevents.allday'] = 'all day';
+$_lang['gcalevents.details'] = 'details';
