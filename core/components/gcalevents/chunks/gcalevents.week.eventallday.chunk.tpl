@@ -1,0 +1,1 @@
+<div style="height: [[+height]]px;" class="gcalalldayevent" title="[[+details:notequals=``:then=`[[%gcalevents.details:ucfirst]]:&#013;[[+details]]`:else=``]]"><span class="datetime">[[%gcalevents.allday]]</span><br />[[+title:ellipsis=`50`]]</div>
