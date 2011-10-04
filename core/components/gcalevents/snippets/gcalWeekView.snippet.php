@@ -15,7 +15,7 @@ $gca->init();
 **/
 
 if($gca->c['includeJS'] == 1) {
-	$modx->regClientStartupScript($gca->c['jsPath']);
+	$modx->regClientScript($gca->c['jsPath'])
 }
 if($gca->c['includeCSS'] == 1) {
 	$modx->regClientCSS($gca->c['cssPath']);
